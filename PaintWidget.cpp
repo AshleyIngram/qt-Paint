@@ -4,13 +4,22 @@
 #include <QMouseEvent>
 #include <QResizeEvent>
 
-const QColor WHITE(255, 255, 255);
-const QColor BLACK(0, 0, 0);
+const QColor WHITE("white");
+const QColor BLACK("black");
+const QColor RED("red");
 
 PaintWidget::PaintWidget(QWidget* parent) : QWidget(parent)
 {
     this->_image = new QImage(512, 512, QImage::Format_RGB32); //size of image
     _image->fill(WHITE.rgba());
+    this->_color = BLACK;
+}
+
+PaintWidget::PaintWidget(QString filename, QWidget* parent) : QWidget(parent)
+{
+    this->_image = new QImage(512, 512, QImage::Format_RGB32);
+    _image->load(filename);
+    this->_color = BLACK;
 }
 
 void PaintWidget::paintEvent(QPaintEvent* event)
@@ -44,7 +53,7 @@ void PaintWidget::paintArea(int x, int y)
     {
         for (int j = y-1; j < y+1; j++)
         {
-            this->_image->setPixel(i, j, BLACK.rgba());
+            this->_image->setPixel(i, j, this->_color.rgba());
         }
     }
     this->repaint();
@@ -58,7 +67,7 @@ void PaintWidget::resizeEvent(QResizeEvent* event)
         for (int y = 0; y <= event->size().height(); ++y)
         {
             //if the pixel is black and off the bounds of the image pre-resize...
-            if(this->_image->pixel(x, y) == BLACK.rgba()) 
+            if(this->_image->pixel(x, y) == this->_color.rgba()) 
             {
                if (y >= event->oldSize().height() || x >= event->oldSize().width())
                {
@@ -69,7 +78,11 @@ void PaintWidget::resizeEvent(QResizeEvent* event)
             }
         }
     }
-    
+}
+
+void PaintWidget::save(QString filename)
+{
+    this->_image->save(filename);
 }
 
 PaintWidget::~PaintWidget()

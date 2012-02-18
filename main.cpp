@@ -2,6 +2,7 @@
 #include <qlabel.h>
 #include <qpushbutton.h>
 #include "PaintWidget.h"
+#include "PaintWindow.h"
 
 int main(int argc, char *argv[])
 {
@@ -22,7 +23,7 @@ int main(int argc, char *argv[])
     QPushButton *printButton = new QPushButton("Print", window);
     printButton->move(50, 50);
     QObject::connect(printButton, SIGNAL(clicked()), &textController, SLOT(Print()));*/
-    PaintWidget* p = new PaintWidget();
+    PaintWindow* p = new PaintWindow();
     p->setGeometry(400, 300, 512, 512);
     p->show();
     //window->show();    

@@ -8,6 +8,7 @@ class PaintWidget : public QWidget
     
     public:
         PaintWidget(QWidget* parent = 0);
+        PaintWidget(QString filename, QWidget* parent = 0);
         ~PaintWidget();
         
         void mousePressEvent(QMouseEvent* event);
@@ -15,9 +16,11 @@ class PaintWidget : public QWidget
         void mouseReleaseEvent(QMouseEvent* event);
         void paintEvent(QPaintEvent* event);
         void resizeEvent(QResizeEvent* event);
+        void save(QString filename);
         
     private:
         QImage* _image;
+        QColor _color;
         
         void paintArea(int x, int y);
 };
