@@ -61,23 +61,33 @@ void PaintWidget::paintArea(int x, int y)
 
 void PaintWidget::resizeEvent(QResizeEvent* event)
 {
-    *_image = this->_image->copy(0, 0, event->size().width(), event->size().height());
-    for (int x = 0; x <= event->size().width(); ++x)
+    QImage* image = new QImage(event->size().width(), event->size().height(), QImage::Format_RGB32);
+    image->fill(WHITE.rgba());
+    
+    if (event->size().height() > event->oldSize().height() && event->size().width() > event->oldSize().width())
     {
-        for (int y = 0; y <= event->size().height(); ++y)
+        //making the canvas bigger
+        for (int x = 0; x < event->oldSize().width(); ++x)
         {
-            //if the pixel is black and off the bounds of the image pre-resize...
-            if(this->_image->pixel(x, y) == this->_color.rgba()) 
+            for (int y = 0; y < event->oldSize().height(); ++y)
             {
-               if (y >= event->oldSize().height() || x >= event->oldSize().width())
-               {
-                    //...make it white
-                    this->_image->setPixel(x, y, WHITE.rgba());
-                    //This stops it from recolouring valid squiggles
-               }
+                image->setPixel(x, y, _image->pixel(x, y));
             }
         }
     }
+    else
+    {
+        //making the canvas smaller
+        for (int x = 0; x <= event->size().width(); ++x)
+        {
+            for (int y = 0; y <= event->size().height(); ++y)
+            {
+                image->setPixel(x, y, _image->pixel(x, y));
+            }
+        }
+    }
+    delete(this->_image);
+    this->_image = image;
 }
 
 void PaintWidget::save(QString filename)
