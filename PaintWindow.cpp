@@ -2,6 +2,7 @@
 #include <QMainWindow>
 #include <QApplication>
 #include <QFileDialog>
+#include <iostream>
 
 PaintWindow::PaintWindow(QWidget* parent) : QMainWindow(parent)
 {
@@ -30,6 +31,19 @@ PaintWindow::PaintWindow(QWidget* parent) : QMainWindow(parent)
     fileMenu->addAction(actionOpen);
     fileMenu->addAction(actionSave);
     fileMenu->addAction(actionQuit);
+    
+    
+    toolBrush = new QAction(tr("&Brush"), this);
+    toolBrush->setStatusTip(tr("&Paint on the canvas"));
+    connect(toolBrush, SIGNAL(triggered()), this, SLOT(setTool()));
+    
+    toolLine = new QAction(tr("&Line"), this);
+    toolLine->setStatusTip(tr("&Draw Lines"));
+    connect(toolLine, SIGNAL(triggered()), this, SLOT(setTool()));
+    
+    toolMenu = menuBar()->addMenu(tr("&Tools"));
+    toolMenu->addAction(toolBrush);
+    toolMenu->addAction(toolLine);
 }
 
 void PaintWindow::newImage()
@@ -54,4 +68,10 @@ void PaintWindow::saveImage()
 {
     QString filename = QFileDialog::getSaveFileName(this, tr("Save Image"), "", tr("Image (*.png *.jpg *.bmp)"));
     this->paintWidget->save(filename);
+}
+
+void PaintWindow::setTool()
+{
+    QAction* action = qobject_cast<QAction *>(QObject::sender()); //get the sending object, cast it to a QAction
+    this->paintWidget->setTool(action->text().toStdString());
 }

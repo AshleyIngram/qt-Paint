@@ -18,6 +18,7 @@ class PaintWidget : public QWidget
         void paintEvent(QPaintEvent* event);
         void resizeEvent(QResizeEvent* event);
         void save(QString filename);
+        void setTool(std::string toolname);
         
     private:
         QImage* _image;

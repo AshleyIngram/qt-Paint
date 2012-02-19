@@ -1,5 +1,6 @@
 #include "PaintWidget.h"
 #include "Brush.h"
+#include "Line.h"
 #include <qwidget.h>
 #include <qpainter.h>
 #include <QMouseEvent>
@@ -8,6 +9,8 @@
 const QColor WHITE("white");
 const QColor BLACK("black");
 const QColor RED("red");
+
+using namespace std;
 
 PaintWidget::PaintWidget(QWidget* parent) : QWidget(parent)
 {
@@ -87,6 +90,20 @@ void PaintWidget::resizeEvent(QResizeEvent* event)
 void PaintWidget::save(QString filename)
 {
     this->_image->save(filename);
+}
+
+void PaintWidget::setTool(string tool)
+{
+    if (tool == "&Brush")
+    {
+         delete(this->_tool);
+         this->_tool = new Brush(_image, _color);
+    }
+    else if (tool == "&Line")
+    {
+        delete(this->_tool);
+        this->_tool = new Line(_image, _color, this);
+    }
 }
 
 PaintWidget::~PaintWidget()
