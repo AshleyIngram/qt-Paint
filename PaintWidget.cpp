@@ -1,4 +1,5 @@
 #include "PaintWidget.h"
+#include "Brush.h"
 #include <qwidget.h>
 #include <qpainter.h>
 #include <QMouseEvent>
@@ -13,6 +14,7 @@ PaintWidget::PaintWidget(QWidget* parent) : QWidget(parent)
     this->_image = new QImage(512, 512, QImage::Format_RGB32); //size of image
     _image->fill(WHITE.rgba());
     this->_color = BLACK;
+    this->_tool = new Brush(this->_image, _color);
 }
 
 PaintWidget::PaintWidget(QString filename, QWidget* parent) : QWidget(parent)
@@ -20,6 +22,7 @@ PaintWidget::PaintWidget(QString filename, QWidget* parent) : QWidget(parent)
     this->_image = new QImage(512, 512, QImage::Format_RGB32);
     _image->load(filename);
     this->_color = BLACK;
+    this->_tool = new Brush(this->_image, _color);
 }
 
 void PaintWidget::paintEvent(QPaintEvent* event)
@@ -33,29 +36,19 @@ void PaintWidget::paintEvent(QPaintEvent* event)
 
 void PaintWidget::mousePressEvent(QMouseEvent* event)
 {
-    this->paintArea(event->x(), event->y());
+    this->_tool->mousePressEvent(event);
+    this->repaint();
 }
 
 void PaintWidget::mouseMoveEvent(QMouseEvent* event)
 {
-    this->paintArea(event->x(), event->y());
+    this->_tool->mouseMoveEvent(event);
+    this->repaint();
 }
 
 void PaintWidget::mouseReleaseEvent(QMouseEvent* event)
 {
-    this->paintArea(event->x(), event->y());
-}
-
-void PaintWidget::paintArea(int x, int y)
-{
-    //currently painting a 3x3 box with the click in the middle. Change?
-    for(int i = x-1; i <= x+1; i++)
-    {
-        for (int j = y-1; j < y+1; j++)
-        {
-            this->_image->setPixel(i, j, this->_color.rgba());
-        }
-    }
+    this->_tool->mouseReleaseEvent(event);
     this->repaint();
 }
 
@@ -88,6 +81,7 @@ void PaintWidget::resizeEvent(QResizeEvent* event)
     }
     delete(this->_image);
     this->_image = image;
+    this->_tool->updateImage(image);
 }
 
 void PaintWidget::save(QString filename)
@@ -98,4 +92,5 @@ void PaintWidget::save(QString filename)
 PaintWidget::~PaintWidget()
 {
     delete this->_image;
+    delete this->_tool;
 }

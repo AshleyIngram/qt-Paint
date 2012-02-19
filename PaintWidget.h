@@ -1,6 +1,7 @@
 #ifndef _PAINT_WIDGET_H
 #define _PAINT_WIDGET_H 1
 #include <qwidget.h>
+#include "ITool.h"
 
 class PaintWidget : public QWidget
 {
@@ -21,6 +22,7 @@ class PaintWidget : public QWidget
     private:
         QImage* _image;
         QColor _color;
+        ITool* _tool;
         
         void paintArea(int x, int y);
 };

@@ -6,6 +6,7 @@
 class PaintWindow : public QMainWindow
 {
     Q_OBJECT
+    
     public:
         PaintWindow(QWidget* parent = 0);
         //~PaintWindow();
