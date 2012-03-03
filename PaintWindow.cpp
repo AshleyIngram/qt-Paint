@@ -4,6 +4,8 @@
 #include <QFileDialog>
 #include <iostream>
 
+using namespace std;
+
 PaintWindow::PaintWindow(QWidget* parent) : QMainWindow(parent)
 {
     actionNew = new QAction(tr("&New Image"), this);
@@ -61,11 +63,14 @@ PaintWindow::PaintWindow(QWidget* parent) : QMainWindow(parent)
     colorGreen->setStatusTip(tr("&Green"));
     connect(colorGreen, SIGNAL(triggered()), this, SLOT(setColor()));
     
-    colorMenu = menuBar()->addMenu(tr("&Color"));
+    colorMenu = menuBar()->addMenu(tr("&Colour"));
     colorMenu->addAction(colorBlack);
     colorMenu->addAction(colorRed);
     colorMenu->addAction(colorBlue);
     colorMenu->addAction(colorGreen);
+    
+    this->paintWidget = new PaintWidget(this);
+    this->setCentralWidget (paintWidget);
 }
 
 void PaintWindow::newImage()
