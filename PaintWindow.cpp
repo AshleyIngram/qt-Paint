@@ -44,6 +44,28 @@ PaintWindow::PaintWindow(QWidget* parent) : QMainWindow(parent)
     toolMenu = menuBar()->addMenu(tr("&Tools"));
     toolMenu->addAction(toolBrush);
     toolMenu->addAction(toolLine);
+    
+    colorBlack= new QAction(tr("&Black"), this);
+    colorBlack->setStatusTip(tr("&Black"));
+    connect(colorBlack, SIGNAL(triggered()), this, SLOT(setColor()));
+    
+    colorRed = new QAction(tr("&Red"), this);
+    colorRed->setStatusTip(tr("&Red"));
+    connect(colorRed, SIGNAL(triggered()), this, SLOT(setColor()));
+    
+    colorBlue = new QAction(tr("&Blue"), this);
+    colorBlue->setStatusTip(tr("&Blue"));
+    connect(colorBlue, SIGNAL(triggered()), this, SLOT(setColor()));
+    
+    colorGreen = new QAction(tr("&Green"), this);
+    colorGreen->setStatusTip(tr("&Green"));
+    connect(colorGreen, SIGNAL(triggered()), this, SLOT(setColor()));
+    
+    colorMenu = menuBar()->addMenu(tr("&Color"));
+    colorMenu->addAction(colorBlack);
+    colorMenu->addAction(colorRed);
+    colorMenu->addAction(colorBlue);
+    colorMenu->addAction(colorGreen);
 }
 
 void PaintWindow::newImage()
@@ -74,4 +96,10 @@ void PaintWindow::setTool()
 {
     QAction* action = qobject_cast<QAction *>(QObject::sender()); //get the sending object, cast it to a QAction
     this->paintWidget->setTool(action->text().toStdString());
+}
+
+void PaintWindow::setColor()
+{
+    QAction* action = qobject_cast<QAction *>(QObject::sender());
+    this->paintWidget->setColor(action->text().toStdString());
 }

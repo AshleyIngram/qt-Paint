@@ -8,18 +8,19 @@
 class Line : public ITool
 {  
     public:
-        Line(QImage* image, QColor color, QWidget* parent);
+        Line(QImage* image, QColor* color, QWidget* parent);
         
         void mousePressEvent(QMouseEvent* event);
         void mouseMoveEvent(QMouseEvent* event);
         void mouseReleaseEvent(QMouseEvent* event);
         void updateImage(QImage* image);
+        void updateColor(QColor* color);
     
     private:
         QImage* _image;
         QImage* _unselected_icon;
         QImage* _selected_icon;
-        QColor _color;
+        QColor* _color;
         QWidget* _parent;
         QPoint _points[4];
         int _range;

@@ -14,12 +14,17 @@ class PaintWindow : public QMainWindow
     private:
         QMenu* fileMenu;
         QMenu* toolMenu;
+        QMenu* colorMenu;
         QAction* actionNew;
         QAction* actionSave;
         QAction* actionOpen;
         QAction* actionQuit;
         QAction* toolBrush;
         QAction* toolLine;
+        QAction* colorRed;
+        QAction* colorBlue;
+        QAction* colorBlack;
+        QAction* colorGreen;
         PaintWidget* paintWidget;
         
     private slots:
@@ -27,4 +32,5 @@ class PaintWindow : public QMainWindow
         void openImage();
         void saveImage();
         void setTool();
+        void setColor();
 };

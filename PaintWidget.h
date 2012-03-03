@@ -19,10 +19,11 @@ class PaintWidget : public QWidget
         void resizeEvent(QResizeEvent* event);
         void save(QString filename);
         void setTool(std::string toolname);
+        void setColor(std::string colorName);
         
     private:
         QImage* _image;
-        QColor _color;
+        QColor* _color;
         ITool* _tool;
         
         void paintArea(int x, int y);

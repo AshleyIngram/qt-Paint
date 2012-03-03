@@ -7,17 +7,18 @@
 class Brush : public ITool
 {  
     public:
-        Brush(QImage* image, QColor color);
+        Brush(QImage* image, QColor* color);
         
         void mousePressEvent(QMouseEvent* event);
         void mouseMoveEvent(QMouseEvent* event);
         void mouseReleaseEvent(QMouseEvent* event);
         void updateImage(QImage* image);
+        void updateColor(QColor* color);
     
     private:
         void paintArea(int x, int y);
         QImage* _image;
-        QColor _color;
+        QColor* _color;
 };
 
 #endif

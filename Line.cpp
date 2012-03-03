@@ -6,7 +6,7 @@
 
 using namespace std;
 
-Line::Line(QImage* image, QColor color, QWidget* parent)
+Line::Line(QImage* image, QColor* color, QWidget* parent)
 {
     _image = image;
     _color = color;
@@ -25,7 +25,7 @@ Line::Line(QImage* image, QColor color, QWidget* parent)
     
     for (int i = 0; i < 3; ++i)
     {
-        this->drawLine(i, _color);
+        this->drawLine(i, *_color);
     }
     
     _parent->repaint();
@@ -84,11 +84,11 @@ void Line::mouseMoveEvent(QMouseEvent* event)
     //redraw lines
     if (_selected != 0)
     {
-        this->drawLine(_selected-1 , _color);
+        this->drawLine(_selected-1 , *_color);
     }
     if (_selected != 3)
     {
-        this->drawLine(_selected, _color);
+        this->drawLine(_selected, *_color);
     }
 }
 void Line::mouseReleaseEvent(QMouseEvent* event)
@@ -147,4 +147,9 @@ void Line::drawLine(int point, QColor color)
         int dy = round(p->y() + (q->y() - p->y()) * t);
         _image->setPixel(dx, dy, color.rgb());
     }
+}
+
+void Line::updateColor(QColor* color)
+{
+    this->_color = color;
 }

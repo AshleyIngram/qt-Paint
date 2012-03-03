@@ -9,5 +9,6 @@ class ITool
         virtual void mouseMoveEvent(QMouseEvent* event){};
         virtual void mouseReleaseEvent(QMouseEvent* event){};
         virtual void updateImage(QImage* image){};
+        virtual void updateColor(QColor* color){};
 };
 #endif

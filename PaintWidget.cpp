@@ -6,17 +6,15 @@
 #include <QMouseEvent>
 #include <QResizeEvent>
 
-const QColor WHITE("white");
-const QColor BLACK("black");
-const QColor RED("red");
+#include <iostream>
 
 using namespace std;
 
 PaintWidget::PaintWidget(QWidget* parent) : QWidget(parent)
 {
     this->_image = new QImage(512, 512, QImage::Format_RGB32); //size of image
-    _image->fill(WHITE.rgba());
-    this->_color = BLACK;
+    _image->fill(QColor("white").rgba());
+    this->_color = new QColor("black");
     this->_tool = new Brush(this->_image, _color);
 }
 
@@ -24,7 +22,7 @@ PaintWidget::PaintWidget(QString filename, QWidget* parent) : QWidget(parent)
 {
     this->_image = new QImage(512, 512, QImage::Format_RGB32);
     _image->load(filename);
-    this->_color = BLACK;
+    this->_color = new QColor("black");
     this->_tool = new Brush(this->_image, _color);
 }
 
@@ -58,7 +56,7 @@ void PaintWidget::mouseReleaseEvent(QMouseEvent* event)
 void PaintWidget::resizeEvent(QResizeEvent* event)
 {
     QImage* image = new QImage(event->size().width(), event->size().height(), QImage::Format_RGB32);
-    image->fill(WHITE.rgba());
+    image->fill(QColor("white").rgba());
     
     if (event->size().height() > event->oldSize().height() && event->size().width() > event->oldSize().width())
     {
@@ -104,6 +102,29 @@ void PaintWidget::setTool(string tool)
         delete(this->_tool);
         this->_tool = new Line(_image, _color, this);
     }
+}
+
+void PaintWidget::setColor(string colorName)
+{
+    delete (this->_color);
+    if (colorName == "&Black")
+    {
+        this->_color = new QColor("black");
+    }
+    else if (colorName == "&Red")
+    {
+        this->_color = new QColor("red");
+    }
+    else if (colorName == "&Blue")
+    {
+        this->_color = new QColor("blue");
+    }
+    else if (colorName == "&Green")
+    {
+        this->_color = new QColor("green");
+    }
+    
+    this->_tool->updateColor(this->_color);
 }
 
 PaintWidget::~PaintWidget()
