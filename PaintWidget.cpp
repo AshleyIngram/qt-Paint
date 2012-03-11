@@ -1,6 +1,7 @@
 #include "PaintWidget.h"
 #include "Brush.h"
 #include "Line.h"
+#include "Curve.h"
 #include <qwidget.h>
 #include <qpainter.h>
 #include <QMouseEvent>
@@ -101,6 +102,11 @@ void PaintWidget::setTool(string tool)
     {
         delete(this->_tool);
         this->_tool = new Line(_image, _color, this);
+    }
+    else if (tool == "&Curve")
+    {
+        delete(this->_tool);
+        this->_tool = new Curve(_image, _color, this);
     }
 }
 

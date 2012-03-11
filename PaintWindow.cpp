@@ -43,9 +43,14 @@ PaintWindow::PaintWindow(QWidget* parent) : QMainWindow(parent)
     toolLine->setStatusTip(tr("&Draw Lines"));
     connect(toolLine, SIGNAL(triggered()), this, SLOT(setTool()));
     
+    toolCurve = new QAction(tr("&Curve"), this);
+    toolCurve->setStatusTip(tr("&Draw Curves"));
+    connect(toolCurve, SIGNAL(triggered()), this, SLOT(setTool()));
+    
     toolMenu = menuBar()->addMenu(tr("&Tools"));
     toolMenu->addAction(toolBrush);
     toolMenu->addAction(toolLine);
+    toolMenu->addAction(toolCurve);
     
     colorBlack= new QAction(tr("&Black"), this);
     colorBlack->setStatusTip(tr("&Black"));

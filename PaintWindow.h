@@ -21,6 +21,7 @@ class PaintWindow : public QMainWindow
         QAction* actionQuit;
         QAction* toolBrush;
         QAction* toolLine;
+        QAction* toolCurve;
         QAction* colorRed;
         QAction* colorBlue;
         QAction* colorBlack;
