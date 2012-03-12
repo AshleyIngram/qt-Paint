@@ -11,7 +11,7 @@ class Line : public BaseLine
         Line(QImage* image, QColor* color, QWidget* parent);
     
     private:
-        void drawLine(int point, QColor color);
+        void drawLine(QColor color);
 };
 
 #endif
